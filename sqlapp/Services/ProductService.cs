@@ -12,9 +12,14 @@ namespace sqlapp.Services
         private static string db_password = "Amir1234!";
         private static string db_database = "appdb";
 
+        private readonly ILogger _logger;
+        public ProductService(ILogger logger)
+        {
+            _logger = logger;
+        }
         private SqlConnection GetConnection()
         {
-            
+            _logger.LogInformation("Get Connection");
             var _builder = new SqlConnectionStringBuilder();
             _builder.DataSource = db_source;
             _builder.UserID = db_user;
@@ -24,6 +29,7 @@ namespace sqlapp.Services
         }
         public List<Product> GetProducts()
         {
+            _logger.LogInformation("Start getting products");
             List<Product> _product_lst = new List<Product>();
             string _statement = "SELECT ProductID,ProductName,Quantity from Products";
             SqlConnection _connection = GetConnection();
