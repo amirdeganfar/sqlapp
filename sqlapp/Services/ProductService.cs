@@ -5,15 +5,15 @@ namespace sqlapp.Services
 {
 
     // This service will interact with our Product data in the SQL database
-    public class ProductService
+    public class ProductService : IProductService
     {
         private static string db_source = "webapp300.database.windows.net";
         private static string db_user = "amiradmin";
         private static string db_password = "Amir1234!";
         private static string db_database = "appdb";
 
-        private readonly ILogger _logger;
-        public ProductService(ILogger logger)
+        private readonly ILogger<ProductService> _logger;
+        public ProductService(ILogger<ProductService> logger)
         {
             _logger = logger;
         }
@@ -33,11 +33,11 @@ namespace sqlapp.Services
             List<Product> _product_lst = new List<Product>();
             string _statement = "SELECT ProductID,ProductName,Quantity from Products";
             SqlConnection _connection = GetConnection();
-            
+
             _connection.Open();
-            
+
             SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
-            
+
             using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
             {
                 while (_reader.Read())
